@@ -7,3 +7,4 @@ micros:
     primary: true
     run: gunicorn app:app
     dev: .venv/bin/flask --app app run
+    public : true
