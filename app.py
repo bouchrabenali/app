@@ -1,3 +1,9 @@
+from flask import Flask
+ 
+app = Flask(__name__)
+
+@app.route('/')
+
 def hello_world():
  prefix_google = """
  <!-- Google tag (gtag.js) -->
@@ -14,17 +20,12 @@ src="https://www.googletagmanager.com/gtag/js?id=G-QLDTKG8PY4"></script>
 
 
 
- 
-from flask import Flask
- 
-app = Flask(__name__)
- 
 @app.route('/')
-def hello_world():
+def root():
     return 'Hello, World!'
  
-if __name__ == '__main__':
-    app.run()
+#if __name__ == '__main__':
+    #app.run()
 
 
 
