@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Textbox Page</title>
+<style>
+    /* Styles pour les boutons */
+    .btn {
+        display: inline-block;
+        background-color: #4CAF50; /* Couleur verte */
+        color: #fff; /* Texte blanc */
+        padding: 10px 20px;
+        text-decoration: none;
+        text-align: center;
+        border: none;
+        cursor: pointer;
+        margin: 5px;
+        border-radius: 5px; /* Coins arrondis */
+    }
+</style>
+</head>
+<body>
+<h1>Textbox Page</h1>
+
+<form method="POST">
+<label for="message">Enter a message:</label><br>
+<input type="text" id="message" name="message"><br><br>
+<input type="submit" value="Submit">
+</form>
+
+<h2>Message from the user:</h2>
+<p>{{ user_message }}</p>
+
+<!-- Bouton pour la requête Google -->
+<a href="/make_google_request" class="btn">Make Google Request</a>
+<!-- Deuxième bouton pour la requête Google Analytics -->
+<a href="/make_google_request2" class="btn">Make Google Analytics Request</a>
+</body>
+</html>
