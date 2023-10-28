@@ -3,14 +3,22 @@
 <head>
     <title>Google Analytics Report</title>
 </head>
+<form method="POST">
+    <label for="message">Enter a message:</label><br>
+    <input type="text" id="message" name="message"><br><br>
+    <input type="submit" value="Submit">
+    </form>
+    
 <body>
     <h1>Google Analytics Report</h1>
     
     <h2>Status Code:</h2>
     <p>{{ status_code }}</p>
     
+    
     <h2>Response Text:</h2>
-    <pre>{{ response_text }}</pre>
+    <pre>{{ response_text }}</pre> 
+    
     
     {% if error_message %}
     <h2>Error Message:</h2>

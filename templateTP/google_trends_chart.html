@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Google Trends Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Google Trends Chart</h1>
+    <div>
+        <canvas id="google-trends-chart" width="800" height="400"></canvas>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('google-trends-chart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ labels|tojson|safe }},
+                datasets: [
+                    {
+                        label: 'Football',
+                        data: {{ football_data|tojson|safe }},
+                        borderColor: 'rgb(255, 99, 132)',
+                        fill: false
+                    },
+                    {
+                        label: 'Rugby',
+                        data: {{ rugby_data|tojson|safe }},
+                        borderColor: 'rgb(54, 162, 235)',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            displayFormats: {
+                                quarter: 'MMM YYYY'
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Time'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Interest Over Time'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
