@@ -1,7 +1,11 @@
 from flask import Flask
-from flask import render_template, request
-import requests
+from flask import render_template, request, Response
+import requests 
+from pytrends.request import TrendReq
+import matplotlib.pyplot as plt
+from io import BytesIO
 app= Flask(__name__,template_folder = 'templateTP')
+
  
 @app.route('/')
 
@@ -78,6 +82,7 @@ def make_google_request2():
 @app.route('/google_analytics_report', methods=['GET', 'POST'])
 def google_analytics_report():
     if request.method == 'POST':
+        print('hello, POST method')
         try:
             req2 = requests.get("https://analytics.google.com/analytics/web/#/p408254187/reports/intelligenthome")
             status_code = req2.status_code
@@ -92,6 +97,42 @@ def google_analytics_report():
     else:
         return render_template('google_analytics_report.html', status_code=None, response_text=None)
     
+    
+@app.route('/google_trends', methods=['GET'])
+def google_trends():
+    # Create a pytrends client
+    pytrends = TrendReq(hl='fr-FR', tz=0, geo='FR') # geo='FR' is used to specify that the data is from France
+   
+    # Define your keywords and timeframe
+    keywords = ['Football', 'rugby']
+    timeframe = 'today 3-m'  # my time frame is the last 3 months
+    # Get Google Trends data
+    pytrends.build_payload(keywords, timeframe=timeframe)
+    interest_over_time_df = pytrends.interest_over_time()
+    data = interest_over_time_df.to_json(orient='split')
+    return data
+
+
+@app.route('/google_trends_chart', methods=['GET'])
+def google_trends_chart():
+    pytrends = TrendReq(hl='fr-FR', tz=0, geo='FR') # geo='FR' is used to specify that the data is from France
+    keywords = ['Football', 'rugby']
+    timeframe = 'today 3-m'
+    pytrends.build_payload(keywords, timeframe=timeframe)
+    interest_over_time_df = pytrends.interest_over_time()
+    interest_over_time_df.to_csv('football-rugby.csv')
+    # Generate a line chart
+    plt.figure()
+    interest_over_time_df.plot(title='Google Trends', legend=True)
+    
+    # Save the chart as an image in memory
+    chart_image = BytesIO()
+    plt.savefig(chart_image, format='png')
+    chart_image.seek(0)
+
+    return Response(chart_image, content_type='image/png')
+
+
 
     
 
